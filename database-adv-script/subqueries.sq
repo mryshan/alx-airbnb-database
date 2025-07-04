@@ -1,0 +1,42 @@
+-- database-adv-script/subqueries.sql
+
+-- Objective 4: Non-Correlated Subquery - Properties with Average Rating > 4.0
+-- Find all properties where the average rating is greater than 4.0 using a non-correlated subquery.
+-- A non-correlated subquery calculates a result independently and passes it to the outer query.
+-- In this case, the subquery calculates the average rating for each property,
+-- and the outer query then filters properties based on this pre-calculated average.
+SELECT
+    P.property_id,
+    P.name AS property_name,
+    P.location
+FROM
+    Properties AS P
+WHERE
+    P.property_id IN (
+        SELECT
+            R.property_id
+        FROM
+            Reviews AS R
+        GROUP BY
+            R.property_id
+        HAVING
+            AVG(R.rating) > 4.0
+    );
+
+
+-- Objective 5: Correlated Subquery - Users who made More Than 3 Bookings
+-- Find users who have made more than 3 bookings using a correlated subquery.
+-- A correlated subquery depends on the outer query for its values and executes once for each row
+-- processed by the outer query.
+SELECT
+    U.user_id,
+    U.first_name,
+    U.last_name,
+    U.email
+FROM
+    Users AS U
+WHERE
+    (SELECT COUNT(B.booking_id)
+     FROM Bookings AS B
+     WHERE B.user_id = U.user_id -- This is the correlation: B.user_id depends on U.user_id from the outer query
+    ) > 3;
