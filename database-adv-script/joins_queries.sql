@@ -1,4 +1,6 @@
--- database-adv-script/joins_queries.sql
+
+
+  -- database-adv-script/joins_queries.sql
 
 -- Objective 1: INNER JOIN - Bookings and Users
 -- Retrieve all bookings and the respective users who made those bookings.
